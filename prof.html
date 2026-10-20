@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Urban Shop Correction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#EEF0FF; --dots:#D3D8F6; --surface:#FFFFFF; --surface-2:#F5F6FF; --ink:#1B1446; --muted:#5A5683; --line:#D9DBF0;
+  --edge:#1B1446; --tag:#FFD23F; --tag-ink:#1B1446; --pink:#FF5D8F; --mint:#1FBFA3; --eco:#3756F5; --droit:#8B45F0;
+  --ok:#12A160; --ok-soft:#DDF7EA; --no:#E2412F; --no-soft:#FFE6E2; --mid:#B7791F; --mid-soft:#FFF3D6;
+  --f-logo:"Bungee","Arial Black",Impact,sans-serif; --f-display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif; --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --sh:5px 5px 0 var(--edge);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#120F2B; --dots:#221D4A; --surface:#1D1840; --surface-2:#26204F; --ink:#F1EEFF; --muted:#A9A3D6; --line:#3A3370;
+  --edge:#05030F; --eco:#8098FF; --droit:#B98BFF; --ok:#3FD38A; --ok-soft:#143A2A; --no:#FF7A68; --no-soft:#45201B; --mid:#F2B84B; --mid-soft:#3D3015; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#120F2B; --dots:#221D4A; --surface:#1D1840; --surface-2:#26204F; --ink:#F1EEFF; --muted:#A9A3D6; --line:#3A3370;
+  --edge:#05030F; --eco:#8098FF; --droit:#B98BFF; --ok:#3FD38A; --ok-soft:#143A2A; --no:#FF7A68; --no-soft:#45201B; --mid:#F2B84B; --mid-soft:#3D3015; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg) radial-gradient(var(--dots) 1.5px,transparent 1.6px) 0 0/22px 22px;color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+p{margin:0}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand{font-family:var(--f-logo);font-size:22px;letter-spacing:.5px}
+.brand small{display:block;font-family:var(--f-body);font-size:13px;color:var(--muted);letter-spacing:0}
+.back{color:var(--ink);font-weight:700}
+.sticker{background:var(--surface);border:3px solid var(--edge);border-radius:14px;box-shadow:var(--sh);padding:20px}
+.drop{display:grid;place-items:center;text-align:center;gap:10px;padding:34px 20px;border:3px dashed var(--edge);border-radius:14px;background:var(--surface);cursor:pointer;transition:background .15s}
+.drop.over{background:var(--tag)}
+.drop h2{font-size:24px}
+.drop p{color:var(--muted);max-width:56ch}
+.drop.over p{color:var(--tag-ink)}
+.btn{display:inline-flex;align-items:center;gap:6px;border:3px solid var(--edge);border-radius:10px;background:var(--surface);padding:8px 14px;font-weight:700;cursor:pointer;box-shadow:3px 3px 0 var(--edge);text-decoration:none;color:var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--edge)}
+.btn.tag{background:var(--tag);color:var(--tag-ink)}
+.btn.pink{background:var(--pink);color:#fff}
+.btn.small{padding:4px 10px;font-size:14px;box-shadow:2px 2px 0 var(--edge)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+:focus-visible{outline:3px solid var(--eco);outline-offset:2px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:18px 0 24px}
+.step{background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.step b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--edge);color:#fff;font-family:var(--f-mono);margin-right:6px}
+.settings{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:end;margin:22px 0 16px}
+.settings label{display:grid;gap:4px;font-size:14px;font-weight:700}
+.settings input[type=number]{width:80px;border:2px solid var(--edge);border-radius:8px;padding:6px 8px;background:var(--surface)}
+.settings select{border:2px solid var(--edge);border-radius:8px;padding:6px 8px;background:var(--surface)}
+.settings .hint{font-weight:400;color:var(--muted);font-size:13px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.stat{background:var(--surface);border:2px solid var(--edge);border-radius:12px;padding:8px 14px;min-width:120px}
+.stat span{display:block;font-size:13px;color:var(--muted)}
+.stat b{font-family:var(--f-mono);font-size:22px}
+.tbl{overflow-x:auto;border:3px solid var(--edge);border-radius:14px;background:var(--surface);box-shadow:var(--sh)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{background:var(--edge);color:#fff;font-family:var(--f-display);font-weight:700;font-size:14px;position:sticky;top:0;cursor:pointer;user-select:none}
+th.num,td.num{text-align:center}
+tbody tr:hover{background:var(--surface-2)}
+td.name{font-weight:700;white-space:normal;min-width:140px}
+.n{font-family:var(--f-mono);font-weight:700}
+.n.good{color:var(--ok)} .n.mid{color:var(--mid)} .n.bad{color:var(--no)} .n.none{color:var(--muted);font-weight:500}
+.final{display:inline-block;font-family:var(--f-mono);font-weight:700;background:var(--tag);color:var(--tag-ink);border:2px solid var(--edge);border-radius:8px;padding:1px 8px}
+.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:99px;padding:2px 9px}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.no{background:var(--no-soft);color:var(--no)} .pill.mid{background:var(--mid-soft);color:var(--mid)}
+.muted{color:var(--muted)}
+.errors{margin-top:16px;display:grid;gap:8px}
+.err{background:var(--no-soft);color:var(--ink);border-left:5px solid var(--no);border-radius:8px;padding:8px 12px;font-size:14px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.empty{text-align:center;color:var(--muted);padding:26px}
+.legend{font-size:13px;color:var(--muted);margin-top:10px}
+@media print{
+  body{background:#fff;color:#000;font-size:12px}
+  .noprint{display:none!important}
+  .tbl{box-shadow:none;border:1px solid #000}
+  th{background:#eee;color:#000}
+  .wrap{padding:0}
+}
+.gate{min-height:100vh;display:grid;place-items:center;padding:16px}
+.gatebox{display:grid;gap:10px;width:min(380px,100%)}
+.gatebox input{border:3px solid var(--edge);border-radius:10px;padding:10px 12px;background:var(--surface-2);font-size:17px}
+.gate-err{color:var(--no);font-weight:700}
+</style>
+</head>
+<body>
+<div id="gate" class="gate"><form id="gateform" class="sticker gatebox">
+  <div class="brand">URBAN SHOP<small>Espace enseignant · M. Frison</small></div>
+  <label for="gate-pw"><b>Mot de passe</b></label>
+  <input id="gate-pw" type="password" autocomplete="current-password" autofocus>
+  <button class="btn tag" type="submit">Entrer</button>
+  <p id="gate-err" class="gate-err" hidden>Mot de passe incorrect.</p>
+  <a class="back" href="./">← Retour au jeu</a>
+</form></div>
+<div class="wrap" id="main" hidden>
+  <header class="top">
+    <div class="brand">URBAN SHOP<small>Espace enseignant · correction de la classe · M. Frison</small></div>
+    <a class="back noprint" href="./">← Retour au jeu</a>
+  </header>
+
+  <section class="noprint">
+    <h1 style="font-size:30px">Corriger les travaux de la classe</h1>
+    <div class="steps">
+      <div class="step"><b>1</b>L'élève termine sa mission puis clique sur <strong>« Enregistrer mon travail »</strong> (fichier <code>travail-urban-shop-prenom.html</code>).</div>
+      <div class="step"><b>2</b>Il dépose ce fichier sur le <strong>Digipad</strong> de la classe.</div>
+      <div class="step"><b>3</b>Vous téléchargez les fichiers du Digipad dans un dossier sur votre ordinateur.</div>
+      <div class="step"><b>4</b>Vous glissez <strong>tous les fichiers d'un coup</strong> ci‑dessous : les notes sont calculées.</div>
+    </div>
+
+    <label class="drop" id="drop" tabindex="0">
+      <h2>Glissez ici les fichiers des élèves</h2>
+      <p>Ou cliquez pour les choisir (vous pouvez en sélectionner plusieurs avec Ctrl+A). Rien n'est envoyé sur Internet : tout reste sur votre ordinateur.</p>
+      <input type="file" id="files" multiple accept=".html,.htm,text/html" hidden>
+    </label>
+    <div class="errors" id="errors"></div>
+
+    <div class="settings">
+      <label>Poids des quiz de mission (1 à 5)
+        <input type="number" id="wM" min="0" max="100" value="50"><span class="hint">en %</span></label>
+      <label>Poids du quiz final
+        <input type="number" id="wF" min="0" max="100" value="50"><span class="hint">en %</span></label>
+      <label>Quiz non fait
+        <select id="miss"><option value="skip">Ne compte pas dans la moyenne</option><option value="zero">Compte 0/20</option></select>
+        <span class="hint">s'applique aux quiz de mission et au quiz final</span></label>
+    </div>
+  </section>
+
+  <section id="results"></section>
+</div>
+
+<script>
+/* ===== Accès protégé ===== */
+const PROF_SALT="ffb403268d533f46", PROF_HASH="d4a0081bb3732d2c9b3295a1a34ed0b1b5fca86f744c29f359673ec7172427dc", GATE_KEY="urbanshop-2mrc-seq1-v1-prof";
+async function profHash(pw){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(PROF_SALT+"|"+pw));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+function openMain(){document.getElementById("gate").hidden=true;document.getElementById("main").hidden=false}
+try{if(sessionStorage.getItem(GATE_KEY)===PROF_HASH)openMain()}catch(e){}
+document.getElementById("gateform").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const h=await profHash(document.getElementById("gate-pw").value).catch(()=>"");
+  if(h===PROF_HASH){try{sessionStorage.setItem(GATE_KEY,PROF_HASH)}catch(_){}openMain()}
+  else{document.getElementById("gate-err").hidden=false;document.getElementById("gate-pw").select()}
+});
+
+/* ===== Décodage du code de validation : mêmes règles que le jeu (index.html) ===== */
+const ALPH="23456789ABCDEFGHJKLMNPQRSTUVWXYZ", SALT="frison-2mrc-urban-shop";
+const RANKS=["Stagiaire","Vendeur(se) débutant(e)","Conseiller(ère) de vente","Responsable de rayon","Directeur(rice) de magasin"];
+const MISSIONS=["M1 · Économie ou droit ?","M2 · Agents économiques","M3 · Échanges et flux","M4 · Les marchés","M5 · Les prix","Quiz final"];
+const MIDS=["m1","m2","m3","m4","m5","m6"];
+function fnv(str){let h=2166136261;for(const ch of str){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0}return h>>>0}
+function nn(n){return String(n||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9 -]/g,"").replace(/\s+/g," ").trim()}
+function enc(n,len){let r="";for(let i=0;i<len;i++){r=ALPH[n%32]+r;n=Math.floor(n/32)}return r}
+function dec(t){let n=0;for(const c of t){const i=ALPH.indexOf(c);if(i<0)return -1;n=n*32+i}return n}
+function sig(name,p){return enc(fnv(nn(name)+"|"+p+"|"+SALT)%1048576,4)}
+const P40=2**40, KEY40=(fnv(SALT)*256+97)%P40;
+function checkCode(name,code){
+  const t=String(code||"").toUpperCase().replace(/[^0-9A-Z]/g,"").replace(/O/g,"0").replace(/I/g,"1");
+  if(t.length!==12)return null;
+  const p=t.slice(0,8);
+  if(sig(name,p)!==t.slice(8))return null;
+  let n=(dec(p)-KEY40+P40)%P40;const notes=[];
+  for(let i=0;i<6;i++){notes.push(n%64);n=Math.floor(n/64)}
+  return {notes,rk:Math.min(n,RANKS.length-1)};
+}
+
+/* ===== Lecture des fichiers ===== */
+let STUDENTS=[], ERRORS=[], SORT={k:"name",dir:1};
+const esc=t=>String(t).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
+const fmt=v=>v==null?"—":(Math.round(v*100)/100).toString().replace(".",",");
+
+function parseFile(file){
+  return file.text().then(txt=>{
+    const m=txt.match(/<script type="application\/json" id="urbanshop-save">([\s\S]*?)<\/script>/);
+    if(!m) throw "Ce fichier n'est pas un travail Urban Shop.";
+    const j=JSON.parse(m[1]);
+    if(!j||j.app!=="urbanshop-2mrc"||!j.S) throw "Ce fichier n'est pas un travail Urban Shop.";
+    const name=String(j.S.name||"").trim();
+    const cm=txt.match(/<span class="code">([^<]+)<\/span>/);
+    const code=cm?cm[1].trim():"";
+    const res=checkCode(name,code);
+    const done=MIDS.filter(id=>j.S.done&&j.S.done[id]).length;
+    return {file:file.name,name,code,saved:j.saved?new Date(j.saved):null,valid:!!res,
+      notes:res?res.notes.map(h=>h<=40?h/2:null):[null,null,null,null,null,null],
+      rank:res?RANKS[res.rk]:"—",done,html:txt};
+  });
+}
+
+async function addFiles(list){
+  if(document.getElementById("main").hidden)return;
+  const files=[...list].filter(f=>/\.html?$/i.test(f.name));
+  if(!files.length){ERRORS=["Aucun fichier .html reconnu. Choisissez les fichiers « travail-urban-shop-….html »."];render();return}
+  ERRORS=[];
+  for(const f of files){
+    try{
+      const s=await parseFile(f);
+      const key=nn(s.name);
+      const old=STUDENTS.findIndex(x=>nn(x.name)===key);
+      if(old>=0){
+        // garde le dépôt le plus récent
+        if(!STUDENTS[old].saved||(s.saved&&s.saved>STUDENTS[old].saved)){STUDENTS[old]=s;ERRORS.push(`${s.name} : plusieurs fichiers trouvés, le plus récent est gardé (${f.name}).`)}
+        else ERRORS.push(`${s.name} : « ${f.name} » est plus ancien qu'un fichier déjà chargé, il est ignoré.`);
+      } else STUDENTS.push(s);
+    }catch(e){ERRORS.push(`« ${f.name} » : ${typeof e==="string"?e:"fichier illisible."}`)}
+  }
+  render();
+}
+
+/* ===== Calcul de la note ===== */
+function compute(s){
+  const wM=Math.max(0,+document.getElementById("wM").value||0), wF=Math.max(0,+document.getElementById("wF").value||0);
+  const zero=document.getElementById("miss").value==="zero";
+  const ms=s.notes.slice(0,5).map(v=>v==null?(zero?0:null):v).filter(v=>v!=null);
+  const moyM=ms.length?ms.reduce((a,b)=>a+b,0)/ms.length:null;
+  const fin=s.notes[5]==null?(zero?0:null):s.notes[5];
+  let parts=[];
+  if(moyM!=null&&wM>0)parts.push([moyM,wM]);
+  if(fin!=null&&wF>0)parts.push([fin,wF]);
+  const tw=parts.reduce((a,p)=>a+p[1],0);
+  const finale=tw?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/tw*2)/2:null; // arrondi au demi-point
+  return {moyM,finale};
+}
+const cls=v=>v==null?"none":v>=14?"good":v>=10?"mid":"bad";
+
+/* ===== Affichage ===== */
+function render(){
+  document.getElementById("errors").innerHTML=ERRORS.map(e=>`<div class="err">${esc(e)}</div>`).join("");
+  const el=document.getElementById("results");
+  if(!STUDENTS.length){el.innerHTML=`<div class="sticker empty">Aucun travail chargé pour l'instant.</div>`;return}
+  const rows=STUDENTS.map(s=>({...s,...compute(s)}));
+  const k=SORT.k,dir=SORT.dir;
+  rows.sort((a,b)=>{
+    let x,y;
+    if(k==="name"){x=nn(a.name);y=nn(b.name);return x<y?-dir:x>y?dir:0}
+    if(k.startsWith("q")){x=a.notes[+k.slice(1)];y=b.notes[+k.slice(1)]}
+    else {x=a[k];y=b[k]}
+    if(x==null&&y==null)return 0; if(x==null)return 1; if(y==null)return -1;
+    return (x-y)*dir;
+  });
+  const valid=rows.filter(r=>r.valid&&r.finale!=null);
+  const avg=valid.length?valid.reduce((a,r)=>a+r.finale,0)/valid.length:null;
+  const finished=rows.filter(r=>r.done===6).length;
+  const invalid=rows.filter(r=>!r.valid).length;
+  const arrow=key=>SORT.k===key?(SORT.dir>0?" ▲":" ▼"):"";
+  el.innerHTML=`
+  <div class="stats">
+    <div class="stat"><span>Travaux chargés</span><b>${rows.length}</b></div>
+    <div class="stat"><span>Séquence terminée</span><b>${finished}/${rows.length}</b></div>
+    <div class="stat"><span>Moyenne de la classe</span><b>${fmt(avg)}${avg!=null?"/20":""}</b></div>
+    ${invalid?`<div class="stat" style="border-color:var(--no)"><span>Codes non valides</span><b style="color:var(--no)">${invalid}</b></div>`:""}
+  </div>
+  <div class="actions noprint">
+    <button class="btn tag" id="csv">Exporter le tableau (Excel / Pronote)</button>
+    <button class="btn" onclick="window.print()">Imprimer</button>
+    <button class="btn" id="clear">Vider la liste</button>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr>
+      <th data-k="name">Élève${arrow("name")}</th>
+      ${MISSIONS.map((m,i)=>`<th class="num" data-k="q${i}" title="${esc(m)}">${i<5?"M"+(i+1):"Final"}${arrow("q"+i)}</th>`).join("")}
+      <th class="num" data-k="moyM">Moy. M1‑M5${arrow("moyM")}</th>
+      <th class="num" data-k="finale">Note /20${arrow("finale")}</th>
+      <th data-k="done">Avancement${arrow("done")}</th>
+      <th>Grade</th><th>Déposé le</th><th class="noprint">Travail</th>
+    </tr></thead>
+    <tbody>${rows.map(r=>`<tr>
+      <td class="name">${esc(r.name||"(sans prénom)")}${r.valid?"":` <span class="pill no" title="Le code ne correspond pas au prénom : fichier modifié ou prénom changé">code non valide</span>`}</td>
+      ${r.notes.map(v=>`<td class="num"><span class="n ${cls(v)}">${v==null?"—":fmt(v)}</span></td>`).join("")}
+      <td class="num"><span class="n ${cls(r.moyM)}">${fmt(r.moyM)}</span></td>
+      <td class="num">${r.valid&&r.finale!=null?`<span class="final">${fmt(r.finale)}</span>`:`<span class="n none">—</span>`}</td>
+      <td><span class="pill ${r.done===6?"ok":r.done>=3?"mid":"no"}">${r.done}/6 missions</span></td>
+      <td>${esc(r.rank)}</td>
+      <td class="muted">${r.saved?r.saved.toLocaleDateString("fr-FR")+" "+r.saved.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"}):"—"}</td>
+      <td class="noprint"><button class="btn small" data-view="${esc(nn(r.name))}">Voir</button></td>
+    </tr>`).join("")}</tbody>
+  </table></div>
+  <p class="legend">Les notes de quiz viennent du code de validation de l'élève : si un élève modifie son fichier, le code ne correspond plus et la ligne est signalée. Note /20 = moyenne pondérée, arrondie au demi‑point. Cliquez sur un titre de colonne pour trier. « Voir » ouvre le travail complet (réponses écrites comprises).</p>`;
+  el.querySelectorAll("th[data-k]").forEach(th=>th.onclick=()=>{const k=th.dataset.k;SORT=SORT.k===k?{k,dir:-SORT.dir}:{k,dir:k==="name"?1:-1};render()});
+  el.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>{
+    const s=STUDENTS.find(x=>nn(x.name)===b.dataset.view);if(!s)return;
+    const url=URL.createObjectURL(new Blob([s.html],{type:"text/html"}));window.open(url,"_blank");setTimeout(()=>URL.revokeObjectURL(url),60000);
+  });
+  document.getElementById("csv").onclick=()=>exportCSV(rows);
+  document.getElementById("clear").onclick=()=>{if(confirm("Vider la liste des travaux chargés ?")){STUDENTS=[];ERRORS=[];render()}};
+}
+
+function exportCSV(rows){
+  const c=v=>v==null?"":String(Math.round(v*100)/100).replace(".",",");
+  const q=t=>`"${String(t).replace(/"/g,'""')}"`;
+  const head=["Élève","M1","M2","M3","M4","M5","Quiz final","Moyenne M1-M5","Note /20","Missions terminées","Grade","Code valide","Déposé le","Fichier"];
+  const lines=[head.map(q).join(";")].concat(rows.map(r=>[q(r.name),...r.notes.map(c),c(r.moyM),r.valid?c(r.finale):"",r.done+"/6",q(r.rank),r.valid?"oui":"NON",r.saved?r.saved.toLocaleDateString("fr-FR"):"",q(r.file)].join(";")));
+  const blob=new Blob(["﻿"+lines.join("\r\n")],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="notes-urban-shop-"+new Date().toISOString().slice(0,10)+".csv";
+  document.body.appendChild(a);a.click();a.remove();
+}
+
+/* ===== Événements ===== */
+const drop=document.getElementById("drop"), inp=document.getElementById("files");
+inp.onchange=()=>{addFiles(inp.files);inp.value=""};
+drop.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inp.click()}});
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("over")}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("over")}));
+drop.addEventListener("drop",e=>addFiles(e.dataTransfer.files));
+document.addEventListener("dragover",e=>e.preventDefault());
+document.addEventListener("drop",e=>{e.preventDefault();if(!drop.contains(e.target))addFiles(e.dataTransfer.files)});
+["wM","wF","miss"].forEach(id=>document.getElementById(id).addEventListener("input",render));
+render();
+</script>
+</body>
+</html>
